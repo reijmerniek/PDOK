@@ -1,4 +1,12 @@
-
+#' WFS Datasets
+#'
+#' @param use_stored_df A logical value. If TRUE, return the stored dataframe.
+#'                      If FALSE, run a query.
+#' @return A dataframe.
+#' @examples
+#' PDOK::wfs_datasets(TRUE)
+#' PDOK::wfs_datasets(FALSE)
+#' @export
 
 
 wfs_datasets <- function(use_stored_df = FALSE){
