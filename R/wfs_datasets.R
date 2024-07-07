@@ -22,8 +22,9 @@ wfs_datasets <- function(use_stored_df = FALSE){
 
   if (use_stored_df==TRUE) {
     data("pdok_datasets", package = "PDOK")
-    return(pdok_datasets)
+    result <- pdok_datasets
     rm(pdok_datasets, envir = .GlobalEnv)
+    return(result)
   } else {
 
 
