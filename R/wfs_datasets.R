@@ -23,6 +23,7 @@ wfs_datasets <- function(use_stored_df = FALSE){
   if (use_stored_df==TRUE) {
     data("pdok_datasets", package = "PDOK")
     return(pdok_datasets)
+    rm(stored_df, envir = .GlobalEnv)
   } else {
 
 
