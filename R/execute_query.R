@@ -71,5 +71,3 @@ execute_query <- function(query_number, dataframe, query_column = "query_nr", li
 
 }
 
-# Example usage of the function
-execute_query(1, total_test)
