@@ -83,23 +83,23 @@ wfs_datasets <- function(use_stored_df = FALSE){
 
         pdok = as_list(read_xml(wfs_df$links[a]))
         xml_df = tibble::as_tibble(pdok) %>%
-          unnest_longer(WFS_Capabilities)
+          tidyr::unnest_longer(WFS_Capabilities)
 
         suppressWarnings(
           suppressMessages(
             general_info <- xml_df %>%
               dplyr::filter(WFS_Capabilities_id %in%  c("Title","Abstract","ProviderName" )) %>%
-              unnest_wider(WFS_Capabilities, names_sep = "", names_repair =  "unique")
+              tidyr::unnest_wider(WFS_Capabilities, names_sep = "", names_repair =  "unique")
           ))
         general_info$WFS_Capabilities_id <-NULL
         general_info$NAME <- c("Title","Abstract","ProviderName")
-        general_info <- general_info %>% pivot_wider(names_from = NAME, values_from = WFS_Capabilities1)
+        general_info <- general_info %>%  tidyr::pivot_wider(names_from = NAME, values_from = WFS_Capabilities1)
 
         suppressWarnings(
           suppressMessages(
             xml_wider <- xml_df %>%
               dplyr::filter(WFS_Capabilities_id == "FeatureType") %>%
-              unnest_wider(WFS_Capabilities, names_repair =  "unique") %>%
+              tidyr::unnest_wider(WFS_Capabilities, names_repair =  "unique") %>%
               select(,c(1:3))%>%
               unnest(cols = names(.))
           ))
@@ -128,7 +128,7 @@ wfs_datasets <- function(use_stored_df = FALSE){
 
     row.names(dataframe) <-NULL
     dataframe$query_nr <- seq(1:length(dataframe$link_site))
-    dataframe <- dataframe %>% separate(col=links, into = c("1","2"), sep="_", remove = FALSE)
+    dataframe <- dataframe %>%  tidyr::separate(col=links, into = c("1","2"), sep="_", remove = FALSE)
     dataframe$query <- paste0(dataframe$`1`,"_0?request=GetFeature&service=WFS&version=2.0.0&typeName=",dataframe$Type,"&outputFormat=json")
     dataframe <- dataframe %>% select(-c(`1`,`2`, links))
     return(dataframe)
