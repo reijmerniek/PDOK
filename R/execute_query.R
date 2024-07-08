@@ -1,5 +1,5 @@
-#' Execute query
-#' This function can execute queries that are stored in the dataframe that comes out of wfs_datasets()
+#' @title Execute query to get wfs geodata.
+#' @description This function can execute queries that are stored in the dataframe that comes out of wfs_datasets(). It can do a single query or query the full underlying dataset.
 #'
 #'
 #' @param dataframe The dataframe from which to get your query, it can be called by using wfs_datasets()
@@ -15,7 +15,7 @@
 #'
 #' @export
 
-execute_query <- function(query_number, dataframe, query_column = "query_nr", link_column = "query" , full) {
+execute_query <- function(query_number, dataframe, query_column = "query_nr", link_column = "query" , full= TRUE) {
   if (!(query_column %in% colnames(dataframe))) {
     stop("query_column is not a valid column name in the dataframe")
   }
@@ -30,8 +30,13 @@ execute_query <- function(query_number, dataframe, query_column = "query_nr", li
   }
 
   if(full==FALSE) {
-
-    result <- st_read(query_string)
+    result <- tryCatch(
+      st_read(query_string),
+      error = function(e) {
+        message("Error in reading the data: ", e)
+        return(NULL)
+      }
+    )
     return(result)
   } else if (full==TRUE){
     all_features <- NULL
@@ -54,13 +59,12 @@ execute_query <- function(query_number, dataframe, query_column = "query_nr", li
       } else {
         all_features <- rbind(all_features, current_features)
       }
-      startIndex <- startIndex + count
+      startIndex <- startIndex + 1000
     }
-
-
+    return(all_features)
   }
-
-
-
+  else {
+    message("'full' not filled with TRUE/FALSE")
+  }
 }
 

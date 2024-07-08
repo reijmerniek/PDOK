@@ -2,15 +2,14 @@
 % Please edit documentation in R/execute_query.R
 \name{execute_query}
 \alias{execute_query}
-\title{Execute query
-This function can execute queries that are stored in the dataframe that comes out of wfs_datasets()}
+\title{Execute query to get wfs geodata.}
 \usage{
 execute_query(
   query_number,
   dataframe,
   query_column = "query_nr",
   link_column = "query",
-  full
+  full = TRUE
 )
 }
 \arguments{
@@ -28,8 +27,7 @@ execute_query(
 A dataframe.
 }
 \description{
-Execute query
-This function can execute queries that are stored in the dataframe that comes out of wfs_datasets()
+This function can execute queries that are stored in the dataframe that comes out of wfs_datasets(). It can do a single query or query the full underlying dataset.
 }
 \examples{
 wfs_results <- execute_query( query_number =1, dataframe = df, full=TRUE)

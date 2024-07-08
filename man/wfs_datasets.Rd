@@ -2,7 +2,7 @@
 % Please edit documentation in R/wfs_datasets.R
 \name{wfs_datasets}
 \alias{wfs_datasets}
-\title{WFS Datasets}
+\title{Get all WFS dataset descriptions and respective queries}
 \usage{
 wfs_datasets(stored_df = TRUE)
 }

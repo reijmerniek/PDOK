@@ -1,4 +1,4 @@
-#' @title WFS Datasets
+#' @title Get all WFS dataset descriptions and respective queries
 #' @description
 #' This function gives back a dataframe with all WFS datasets from PDOK.nl and it's API calls. Usable with execute_query(). If it crashes on stored_DF = FALSE, it is most likely the service has a hickup.
 #'
