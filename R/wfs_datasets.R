@@ -33,7 +33,7 @@ wfs_datasets <- function(stored_df = FALSE){
     result <- pdok_datasets
     rm(pdok_datasets, envir = .GlobalEnv)
     return(result)
-  } else {
+  } else if(stored_df=FALSE) {
 
     datasets_links <- map2_df(
       read_html("https://www.pdok.nl/datasets") %>% html_nodes(".card-label"),
@@ -132,7 +132,9 @@ wfs_datasets <- function(stored_df = FALSE){
     dataframe <- dataframe %>% select(-c(`1`,`2`, links))
     return(dataframe)
 
-  }
+  } else
+    message("'stored_df' not filled with TRUE/FALSE")
+
 }
 
 
