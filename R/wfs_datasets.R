@@ -38,7 +38,7 @@ wfs_datasets <- function(use_stored_df = FALSE){
       read_html("https://www.pdok.nl/datasets") %>% html_nodes(".card-label"),
       read_html("https://www.pdok.nl/datasets") %>% html_nodes(".card-title") %>% html_attr("href"),
       ~data.frame(Aanbieder= html_text(.x, trim = TRUE), Link = .y, stringsAsFactors = FALSE)
-    ) %>% arrange(Aanbieder)
+    ) %>% dplyr::arrange(Aanbieder)
 
     i=1
     a=1
