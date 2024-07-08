@@ -21,4 +21,5 @@ imports:
   xml2,
   stringr,
   purrr,
-  dplyr
+  dplyr,
+  tidyr

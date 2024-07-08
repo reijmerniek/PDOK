@@ -15,6 +15,7 @@
 #' @import purrr
 #' @import tidyverse
 #' @import stringr
+#' @import tidyr
 
 
 wfs_datasets <- function(use_stored_df = FALSE){
