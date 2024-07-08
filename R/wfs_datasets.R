@@ -9,10 +9,11 @@
 #' df <-PDOK::wfs_datasets(use_stored_df =TRUE)
 #' df <-PDOK::wfs_datasets(use_stored_df =FALSE)
 #' @export
-#' @import tidyverse
+#' @import dplyr
 #' @import xml2
 #' @import rvest
-#'
+#' @import purrr
+#' @import tidyverse
 
 
 wfs_datasets <- function(use_stored_df = FALSE){
