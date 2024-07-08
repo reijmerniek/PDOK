@@ -2,6 +2,8 @@
 
 export(execute_query)
 export(wfs_datasets)
+import(dplyr)
+import(purrr)
 import(rvest)
 import(tidyverse)
 import(xml2)
