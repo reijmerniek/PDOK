@@ -2,7 +2,8 @@
 % Please edit documentation in R/wfs_datasets.R
 \name{wfs_datasets}
 \alias{wfs_datasets}
-\title{WFS Datasets}
+\title{WFS Datasets
+This function give you a dataframe which contains a query per dataste on PDOK.nl/datasets. Each function can be used within sf::st_read() to return a JSON containing vectors and data regarding the data.}
 \usage{
 wfs_datasets(use_stored_df = FALSE)
 }
@@ -15,8 +16,9 @@ A dataframe.
 }
 \description{
 WFS Datasets
+This function give you a dataframe which contains a query per dataste on PDOK.nl/datasets. Each function can be used within sf::st_read() to return a JSON containing vectors and data regarding the data.
 }
 \examples{
-PDOK::wfs_datasets(TRUE)
-PDOK::wfs_datasets(FALSE)
+df <-PDOK::wfs_datasets(use_stored_df =TRUE)
+df <-PDOK::wfs_datasets(use_stored_df =FALSE)
 }

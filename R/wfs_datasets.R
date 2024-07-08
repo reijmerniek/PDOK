@@ -1,12 +1,18 @@
 #' WFS Datasets
+#' This function give you a dataframe which contains a query per dataste on PDOK.nl/datasets. Each function can be used within sf::st_read() to return a JSON containing vectors and data regarding the data.
+#'
 #'
 #' @param use_stored_df A logical value. If TRUE, return the stored dataframe.
 #'                      If FALSE, run a query.
 #' @return A dataframe.
 #' @examples
-#' PDOK::wfs_datasets(TRUE)
-#' PDOK::wfs_datasets(FALSE)
+#' df <-PDOK::wfs_datasets(use_stored_df =TRUE)
+#' df <-PDOK::wfs_datasets(use_stored_df =FALSE)
 #' @export
+#' @import tidyverse
+#' @import xml2
+#' @import rvest
+#'
 
 
 wfs_datasets <- function(use_stored_df = FALSE){
@@ -27,15 +33,11 @@ wfs_datasets <- function(use_stored_df = FALSE){
     return(result)
   } else {
 
-
-
     datasets_links <- map2_df(
       read_html("https://www.pdok.nl/datasets") %>% html_nodes(".card-label"),
       read_html("https://www.pdok.nl/datasets") %>% html_nodes(".card-title") %>% html_attr("href"),
       ~data.frame(Aanbieder= html_text(.x, trim = TRUE), Link = .y, stringsAsFactors = FALSE)
     ) %>% arrange(Aanbieder)
-
-
 
     i=1
     a=1
@@ -54,14 +56,11 @@ wfs_datasets <- function(use_stored_df = FALSE){
         ~data.frame(titles = .x, links = .y, stringsAsFactors = FALSE)
       )
 
-
       links_df <- links_df %>% mutate( grepl =grepl("\\(WFS\\)",links_df$titles) ) %>% filter(grepl =="TRUE")
-
 
       if (length(links_df$links)==0) {
         next
       }
-
 
       wfs_df <- map2_df(
         read_html(paste0("https://www.pdok.nl/",links_df$links[1])) %>% html_nodes("a") %>% html_attr("href"),
@@ -70,13 +69,10 @@ wfs_datasets <- function(use_stored_df = FALSE){
       )
 
       wfs_df <- wfs_df%>% mutate( grepl =grepl("/wfs/",wfs_df$titles) ) %>% filter(grepl =="TRUE")
-
       wfs_df$titles <-NULL
       wfs_df$grepl <- NULL
       row.names(wfs_df) <-NULL
       wfs_df$year <- sapply(wfs_df$links, extract_year)
-
-
 
       temp_dataframe <- NULL
 
@@ -103,7 +99,6 @@ wfs_datasets <- function(use_stored_df = FALSE){
               unnest_wider(WFS_Capabilities, names_repair =  "unique") %>%
               select(,c(1:3))%>%
               unnest(cols = names(.))
-
           ))
 
         names(xml_wider)[1] <-"Type"
@@ -112,17 +107,12 @@ wfs_datasets <- function(use_stored_df = FALSE){
 
         row_data <- datasets_links[i, c(1:2)]
         links_join <- data.frame(row_data[rep(1, each = length(xml_wider$Type)), ])
-
         names(links_join)[1] <- "link_site"
-
 
         general_info <-general_info[rep(1, each = length(xml_wider$Type)), ]
         wfs_join <- data.frame(wfs_df[a,][rep(1, each = length(xml_wider$Type)), ])
-
         file <- cbind(links_join,general_info,xml_wider,wfs_join)
         temp_dataframe <- rbind(temp_dataframe,file)
-
-
 
       }
 
