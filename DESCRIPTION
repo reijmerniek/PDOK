@@ -2,7 +2,7 @@ Package: PDOK
 Title: A wrapper to get coordinates from addresses via PDOK and a way to query the WFS datasets.
 Version: 0.0.0.9000
 Authors@R: 
-    person("niek", "reijmer", role = c("aut", "cre"))
+    person(given = "Niek", family = "Reijmer", role = c("aut", "cre"), email = "niek@example.com", comment = c(ORCID = "0000-0000-0000-0000"))
 Description: This package helps you to decrease the time needed to get PDOK data into Rstudio. It has both a function get coordinates from adresses and queries to get all PDOK WFS datasets. To reduce load on PDOK i have added a recent Rdata file of the df in memory and will update it regurarly. 
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
