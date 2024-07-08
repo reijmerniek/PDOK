@@ -33,7 +33,7 @@ wfs_datasets <- function(stored_df = FALSE){
     result <- pdok_datasets
     rm(pdok_datasets, envir = .GlobalEnv)
     return(result)
-  } else if(stored_df=FALSE) {
+  } else if(stored_df==FALSE) {
 
     datasets_links <- map2_df(
       read_html("https://www.pdok.nl/datasets") %>% html_nodes(".card-label"),
