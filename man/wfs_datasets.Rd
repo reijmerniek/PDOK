@@ -2,10 +2,9 @@
 % Please edit documentation in R/wfs_datasets.R
 \name{wfs_datasets}
 \alias{wfs_datasets}
-\title{WFS Datasets
-This function gives back a dataframe with all WFS datasets from PDOK.nl and it's API calls. Usable with execute_query().}
+\title{WFS Datasets}
 \usage{
-wfs_datasets(stored_df = FALSE)
+wfs_datasets(stored_df = TRUE)
 }
 \arguments{
 \item{use_stored_df}{A logical value. If TRUE, return the stored dataframe.
@@ -15,8 +14,7 @@ If FALSE, run a query.}
 A dataframe.
 }
 \description{
-WFS Datasets
-This function gives back a dataframe with all WFS datasets from PDOK.nl and it's API calls. Usable with execute_query().
+This function gives back a dataframe with all WFS datasets from PDOK.nl and it's API calls. Usable with execute_query(). If it crashes on stored_DF = FALSE, it is most likely the service has a hickup.
 }
 \examples{
 df <-PDOK::wfs_datasets(stored_df =TRUE)

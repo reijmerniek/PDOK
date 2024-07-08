@@ -1,5 +1,6 @@
-#' WFS Datasets
-#' This function gives back a dataframe with all WFS datasets from PDOK.nl and it's API calls. Usable with execute_query().
+#' @title WFS Datasets
+#' @description
+#' This function gives back a dataframe with all WFS datasets from PDOK.nl and it's API calls. Usable with execute_query(). If it crashes on stored_DF = FALSE, it is most likely the service has a hickup.
 #'
 #' @param use_stored_df A logical value. If TRUE, return the stored dataframe.
 #'                      If FALSE, run a query.
@@ -16,8 +17,7 @@
 #' @import stringr
 #' @import tidyr
 
-
-wfs_datasets <- function(stored_df = FALSE){
+wfs_datasets <- function(stored_df = TRUE){
 
   extract_year <- function(link) {
     year <- str_extract(link, "\\b\\d{4}\\b")
@@ -33,6 +33,7 @@ wfs_datasets <- function(stored_df = FALSE){
     result <- pdok_datasets
     rm(pdok_datasets, envir = .GlobalEnv)
     return(result)
+
   } else if(stored_df==FALSE) {
 
     datasets_links <- map2_df(
@@ -115,15 +116,10 @@ wfs_datasets <- function(stored_df = FALSE){
         wfs_join <- data.frame(wfs_df[a,][rep(1, each = length(xml_wider$Type)), ])
         file <- cbind(links_join,general_info,xml_wider,wfs_join)
         temp_dataframe <- rbind(temp_dataframe,file)
-
       }
 
       dataframe <-rbind(dataframe,temp_dataframe)
-
-
     }
-
-
 
     row.names(dataframe) <-NULL
     dataframe$query_nr <- seq(1:length(dataframe$link_site))
