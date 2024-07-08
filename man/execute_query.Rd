@@ -3,28 +3,34 @@
 \name{execute_query}
 \alias{execute_query}
 \title{Execute query
-This function give you a dataframe which contains a query per dataste on PDOK.nl/datasets. Each function can be used within sf::st_read() to return a JSON containing vectors and data regarding the data.}
+This function can execute queries that are stored in the dataframe that comes out of wfs_datasets()}
 \usage{
 execute_query(
   query_number,
   dataframe,
   query_column = "query_nr",
-  link_column = "link",
+  link_column = "query",
   full
 )
 }
 \arguments{
-\item{use_stored_df}{A logical value. If TRUE, return the stored dataframe.
-If FALSE, run a query.}
+\item{query_number}{The row related to the query in the query column}
+
+\item{dataframe}{The dataframe from which to get your query, it can be called by using wfs_datasets()}
+
+\item{query_column}{The column in which the queries are stored, defaults to 'query_nr'}
+
+\item{link_column}{The column in which the queries are stored, defaults to 'query'}
+
+\item{full}{TRUE/FALSE, if TRUE it will query until there are no more results left, if FALSE it will query max 1k once.}
 }
 \value{
 A dataframe.
 }
 \description{
 Execute query
-This function give you a dataframe which contains a query per dataste on PDOK.nl/datasets. Each function can be used within sf::st_read() to return a JSON containing vectors and data regarding the data.
+This function can execute queries that are stored in the dataframe that comes out of wfs_datasets()
 }
 \examples{
-df <-PDOK::wfs_datasets(use_stored_df =TRUE)
-df <-PDOK::wfs_datasets(use_stored_df =FALSE)
+wfs_results <- execute_query( query_number =1, dataframe = df, full=TRUE)
 }

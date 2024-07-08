@@ -1,13 +1,12 @@
 #' WFS Datasets
-#' This function give you a dataframe which contains a query per dataste on PDOK.nl/datasets. Each function can be used within sf::st_read() to return a JSON containing vectors and data regarding the data.
-#'
+#' This function gives back a dataframe with all WFS datasets from PDOK.nl and it's API calls. Usable with execute_query().
 #'
 #' @param use_stored_df A logical value. If TRUE, return the stored dataframe.
 #'                      If FALSE, run a query.
 #' @return A dataframe.
 #' @examples
-#' df <-PDOK::wfs_datasets(use_stored_df =TRUE)
-#' df <-PDOK::wfs_datasets(use_stored_df =FALSE)
+#' df <-PDOK::wfs_datasets(stored_df =TRUE)
+#' df <-PDOK::wfs_datasets(stored_df =FALSE)
 #' @export
 #' @import dplyr
 #' @import xml2
@@ -18,7 +17,7 @@
 #' @import tidyr
 
 
-wfs_datasets <- function(use_stored_df = FALSE){
+wfs_datasets <- function(stored_df = FALSE){
 
   extract_year <- function(link) {
     year <- str_extract(link, "\\b\\d{4}\\b")
@@ -29,7 +28,7 @@ wfs_datasets <- function(use_stored_df = FALSE){
     }
   }
 
-  if (use_stored_df==TRUE) {
+  if (stored_df==TRUE) {
     data("pdok_datasets", package = "PDOK")
     result <- pdok_datasets
     rm(pdok_datasets, envir = .GlobalEnv)
