@@ -1,4 +1,3 @@
-
 #' @title Get coordinates for Dutch addresses
 #' @description This function will query the PDOK API to get coordinates for your input. It first finds whether or not your input returns a suggestions. If so it will take the first one and find its coordinates. Using postcode: and huisnummer: gives good consistent results
 #'
@@ -8,10 +7,13 @@
 #' @return a coordinates string
 #'
 #' @examples
+#'
 #' coordinates <-find_coordinates(input ="Amsterdam", verbose_succes = TRUE)
+#'
 #' @import jsonlite
 #' @import httr
 #' @export
+#'
 
 find_coordinates  <- function(input,verbose_succes = TRUE){
   suggest_url <- "https://api.pdok.nl/bzk/locatieserver/search/v3_1/suggest"
