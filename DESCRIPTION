@@ -1,5 +1,5 @@
 Package: PDOK
-Title: A wrapper to get coordinates from addresses via PDOK and a way to query the WFS datasets.
+Title: Get coordinates from Dutch addresses and query the PDOK.nl WFS datasets.
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Niek", family = "Reijmer", role = c("aut", "cre"), email = "niek@example.com", comment = c(ORCID = "0000-0000-0000-0000"))
