@@ -13,7 +13,6 @@
 #' @import httr
 #' @export
 
-input ="Amsterdam"
 find_coordinates  <- function(input,verbose_succes = TRUE){
   suggest_url <- "https://api.pdok.nl/bzk/locatieserver/search/v3_1/suggest"
 
