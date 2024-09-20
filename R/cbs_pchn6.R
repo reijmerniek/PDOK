@@ -16,7 +16,7 @@
 cbs_pchn6<- function(jaar, remove_files =TRUE, add_names= TRUE){
 
   if (!jaar %in% c(2024,2023, 2022, 2021, 2020, 2019, 2018, 2017)) {
-    stop("Alleen 2016 tm 2024 beschikbaar")
+    stop("Alleen 2016 t/m 2024 beschikbaar")
   }
   if(!remove_files %in% c(TRUE,FALSE)){
     print("remove_files not TRUE/FALSE, defaulted to TRUE")
