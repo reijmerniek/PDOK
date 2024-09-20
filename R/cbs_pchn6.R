@@ -8,7 +8,7 @@
 #'
 #' @return A dataframe.
 #' @examples
-#' df <-PDOK::cbs_pchn6(jaar=2024, remove_files =TRUE, add_names= TRUE)
+#' df <-PDOK::cbs_pchn6( jaar=2024, remove_files =TRUE, add_names= TRUE)
 #' @export
 #' @import dplyr
 
