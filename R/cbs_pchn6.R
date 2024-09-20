@@ -16,7 +16,7 @@
 cbs_pchn6<- function(jaar, remove_files =TRUE, add_names= TRUE){
 
   if (!jaar %in% c(2024,2023, 2022, 2021, 2020, 2019, 2018, 2017)) {
-    stop("Alleen 2016 t/m 2024 beschikbaar")
+    stop("Alleen 2016 t/m 2024 beschikbaar.")
   }
   if(!remove_files %in% c(TRUE,FALSE)){
     print("remove_files not TRUE/FALSE, defaulted to TRUE")
@@ -25,7 +25,8 @@ cbs_pchn6<- function(jaar, remove_files =TRUE, add_names= TRUE){
     print("add_names not TRUE/FALSE, defaulted to TRUE")
   }
 
-  urls <- c("https://download.cbs.nl/postcode/2024-cbs-pc6huisnr20240801_buurt.zip",
+  urls <- c(
+    "https://download.cbs.nl/postcode/2024-cbs-pc6huisnr20240801_buurt.zip",
     "https://download.cbs.nl/maatwerk/2023-cbs-pc6huisnr20230801_buurt.zip",
     "https://www.cbs.nl/-/media/_excel/2022/37/2022-cbs-pc6huisnr20210801_buurt.zip",
     "https://www.cbs.nl/-/media/_excel/2021/36/2021-cbs-pc6huisnr20200801_buurt.zip",
