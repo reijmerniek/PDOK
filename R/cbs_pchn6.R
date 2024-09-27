@@ -17,9 +17,7 @@ cbs_pchn6<- function(jaar, add_names= TRUE){
   if (!jaar %in% c(2024,2023, 2022, 2021, 2020, 2019, 2018, 2017)) {
     stop("Alleen 2016 t/m 2024 beschikbaar.")
   }
-  if(!remove_files %in% c(TRUE,FALSE)){
-    print("remove_files not TRUE/FALSE, defaulted to TRUE")
-  }
+
   if(!add_names %in% c(TRUE,FALSE)){
     print("add_names not TRUE/FALSE, defaulted to TRUE")
   }
@@ -35,7 +33,7 @@ cbs_pchn6<- function(jaar, add_names= TRUE){
     "https://www.cbs.nl/-/media/_excel/2017/38/2017-cbs-pc6huisnr20170801_buurt.zip"
   )
 
-  jaren <- c(2024,2023, 2022, 2021, 2020, 2019, 2018, 2017)
+  jaren <- c(2024,2023, 2022, 2021, 2020, 2019, 2018, 2017 )
   df <- data.frame(urls, jaren)
 
   download.file(url, destfile = "postcode_huisnummer.zip")
