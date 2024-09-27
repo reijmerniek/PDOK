@@ -35,7 +35,7 @@ cbs_pchn6<- function(jaar, add_names= TRUE){
 
   jaren <- c(2024,2023, 2022, 2021, 2020, 2019, 2018, 2017 )
   df <- data.frame(urls, jaren)
-
+  url <- df$urls[df$jaren == jaar]
   download.file(url, destfile = "postcode_huisnummer.zip")
   unzip("postcode_huisnummer.zip", exdir = "./temp_r_files")
 
