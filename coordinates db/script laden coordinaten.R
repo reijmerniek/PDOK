@@ -8,10 +8,11 @@ library(dplyr)
 con <- dbConnect(RSQLite::SQLite(), dbname = "coordinates_db.sqlite")
 df <- dbGetQuery(con, "SELECT * FROM coordinates_db")
 
-dataset <- PDOK::postcode_huisnummers_cbs(jaar=2023)
+dataset <- PDOK::cbs_pchn6(jaar=2023, add_names = TRUE)
 dataset <- dataset[,c(1:2)]
 dataset$coordinates <- NA
 
+coord_data <- cbs_pchn6_geo()
 
 dataset <- dataset %>%
   anti_join(df, by = c('hn','pc'))
