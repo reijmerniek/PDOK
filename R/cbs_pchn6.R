@@ -3,17 +3,16 @@
 #' This function can download the custom postcode/huisnummer datasets from the corresponding webpages of cbs.nl. It downloads the zip to your working directory, unzips it and imports it into R. It then transforms it in the a structured DF.
 #'
 #' @param jaar A year value between from 2017 until 2024
-#' @param remove_files TRUE/FALSE. If FALSE it stores keeps the files stored in your working directory. Should be FALSE if you want to load multiple dataframes at once, as the function checks the files in your WD to find the files downloaded.
 #' @param add_names TRUE/FALSE. If TRUE it adds the names for buurt/wijk/gem instead of just the numeric identifier.
 #'
 #' @return A dataframe.
 #' @examples
-#' df <-PDOK::cbs_pchn6( jaar=2024, remove_files =TRUE, add_names= TRUE)
+#' df <-PDOK::cbs_pchn6( jaar=2024, add_names= TRUE)
 #' @export
 #' @import dplyr
 
 
-cbs_pchn6<- function(jaar, remove_files =TRUE, add_names= TRUE){
+cbs_pchn6<- function(jaar, add_names= TRUE){
 
   if (!jaar %in% c(2024,2023, 2022, 2021, 2020, 2019, 2018, 2017)) {
     stop("Alleen 2016 t/m 2024 beschikbaar.")
@@ -38,8 +37,6 @@ cbs_pchn6<- function(jaar, remove_files =TRUE, add_names= TRUE){
 
   jaren <- c(2024,2023, 2022, 2021, 2020, 2019, 2018, 2017)
   df <- data.frame(urls, jaren)
-
-  url <- df$urls[df$jaren == jaar]
 
   download.file(url, destfile = "postcode_huisnummer.zip")
   unzip("postcode_huisnummer.zip", exdir = "./temp_r_files")
@@ -81,12 +78,10 @@ cbs_pchn6<- function(jaar, remove_files =TRUE, add_names= TRUE){
 
   }
 
-  if(remove_files==TRUE){
-    unlink("postcode_huisnummer.zip")
-    unlink("./temp_r_files", recursive = TRUE)
-    return(data)
-  }else if(remove_files==FALSE){
-    return(data)
-  }
+
+  unlink("postcode_huisnummer.zip")
+  unlink("./temp_r_files", recursive = TRUE)
+  return(data)
+
 
 }
