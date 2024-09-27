@@ -62,14 +62,19 @@ cbs_pchn6<- function(jaar, add_names= TRUE){
 
     buurt <-read.csv2(list.files(path = "./temp_r_files/", pattern = ".*(buurt|brt).*\\.csv$", full.names = TRUE, recursive = TRUE)[1])
     buurt <-buurt[,c(1:2)]
+
+    buurt <- data.frame(lapply(buurt, as.character), stringsAsFactors = FALSE)
     data <- data %>%
       left_join(buurt, by = setNames(names(buurt)[1], names(data)[3]))
 
     wijk <-read.csv2(list.files(path = "./temp_r_files/", pattern = ".*(Wijk|wijk).*\\.csv$", full.names = TRUE, recursive = TRUE)[1])
+    wijk <- data.frame(lapply(wijk, as.character), stringsAsFactors = FALSE)
     data <- data %>%
       left_join(wijk, by = setNames(names(wijk)[1], names(data)[4]))
 
     gem <-read.csv2(list.files(path = "./temp_r_files/", pattern = ".*(gem).*\\.csv$", full.names = TRUE, recursive = TRUE)[1])
+    gem <- data.frame(lapply(gem, as.character), stringsAsFactors = FALSE)
+
     data <- data %>%
       left_join(gem, by = setNames(names(gem)[1], names(data)[5]))
 
