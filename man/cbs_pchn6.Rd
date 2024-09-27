@@ -4,12 +4,10 @@
 \alias{cbs_pchn6}
 \title{Import Postcode/huisnummer tabels from cbs.nl}
 \usage{
-cbs_pchn6(jaar, remove_files = TRUE, add_names = TRUE)
+cbs_pchn6(jaar, add_names = TRUE)
 }
 \arguments{
-\item{jaar}{A year value between from 2017 until 2023 (2024 should come in a few months)}
-
-\item{remove_files}{TRUE/FALSE. If FALSE it stores keeps the files stored in your working directory. Should be FALSE if you want to load multiple dataframes at once, as the function checks the files in your WD to find the files downloaded.}
+\item{jaar}{A year value between from 2017 until 2024}
 
 \item{add_names}{TRUE/FALSE. If TRUE it adds the names for buurt/wijk/gem instead of just the numeric identifier.}
 }
@@ -20,5 +18,5 @@ A dataframe.
 This function can download the custom postcode/huisnummer datasets from the corresponding webpages of cbs.nl. It downloads the zip to your working directory, unzips it and imports it into R. It then transforms it in the a structured DF.
 }
 \examples{
-df <-PDOK::cbs_pchn6(jaar=2023, remove_files =TRUE, add_names= TRUE)
+df <-PDOK::cbs_pchn6( jaar=2024, add_names= TRUE)
 }
