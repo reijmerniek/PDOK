@@ -47,7 +47,15 @@ cbs_pchn6<- function(jaar, remove_files =TRUE, add_names= TRUE){
   csv_files <- list.files(pattern = "\\.csv$", full.names = TRUE, recursive = TRUE)
   file_info <- file.info(csv_files)
   largest_file <- rownames(file_info[which.max(file_info$size), ])
-  data <- read.csv2(largest_file)
+
+  first_line <- readLines(largest_file, n = 1)
+  if (sum(strsplit(first_line, ";")[[1]] != "") > sum(strsplit(first_line, ",")[[1]] != "")) {
+    delimiter <- ";"
+  } else {
+    delimiter <- ","
+  }
+
+  data <- read.csv2(largest_file, sep = delimiter)
   names(data)[1] <-"pc"
   names(data)[2] <-"hn"
 
