@@ -53,6 +53,7 @@ cbs_pchn6<- function(jaar, add_names= TRUE){
   }
 
   data <- read.csv2(largest_file, sep = delimiter)
+  data <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   names(data)[1] <-"pc"
   names(data)[2] <-"hn"
 
