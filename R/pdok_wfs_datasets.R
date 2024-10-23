@@ -126,6 +126,8 @@ pdok_wfs_datasets <- function(stored_df = TRUE){
     dataframe <- dataframe %>%  tidyr::separate(col=links, into = c("1","2"), sep="_", remove = FALSE)
     dataframe$query <- paste0(dataframe$`1`,"_0?request=GetFeature&service=WFS&version=2.0.0&typeName=",dataframe$Type,"&outputFormat=json")
     dataframe <- dataframe %>% select(-c(`1`,`2`, links))
+    dataframe$Type_abstract <- sapply(dataframe$Type_abstract, paste, collapse = ", ")
+    dataframe$Type_titel <- sapply(dataframe$Type_titel, paste, collapse = ", ")
     return(dataframe)
 
   } else
