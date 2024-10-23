@@ -53,7 +53,7 @@ dbWriteTable(con, "coordinates_db", combined_results, append = TRUE)
 dataset<-rbind(dataset,combined_results)
 
 
-PCHN6
+pchn6_geo <- dataset
 
 
 
