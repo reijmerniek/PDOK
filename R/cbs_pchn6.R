@@ -23,8 +23,8 @@ cbs_pchn6<- function(jaar, add_names= TRUE){
   }
 
   urls <- c(
-    "https://download.cbs.nl/postcode/2024-cbs-pc6huisnr20240801_buurt.zip",
-    "https://download.cbs.nl/maatwerk/2023-cbs-pc6huisnr20230801_buurt.zip",
+    "https://download.cbs.nl/postcode/2024-cbs-pc6huisnr20240801_buurt_20250218.zip",
+    "https://download.cbs.nl/postcode/2023-cbs-pc6huisnr20230801_buurt_20250225.zip",
     "https://www.cbs.nl/-/media/_excel/2022/37/2022-cbs-pc6huisnr20210801_buurt.zip",
     "https://www.cbs.nl/-/media/_excel/2021/36/2021-cbs-pc6huisnr20200801_buurt.zip",
     "https://www.cbs.nl/-/media/_excel/2020/39/2020-cbs-pc6huisnr20200801-buurt.zip",
