@@ -22,7 +22,7 @@ Overview
 --------
 
 PDOK is designed to simplify the process of working with Dutch public service data. It provides a set of functions that can be used to import postcode/huisnummer datasets, get coordinates for addresses, and
-execute queries on WFS geodata. I build this package becaues i was inspired by some guides posted on cbs.nl. With this package i want to create some quality of life functions to use when making maps. For inspiration on what I made with this package see my other repository: https://github.com/reijmerniek/RVisuals.
+execute queries on WFS geodata. I build this package becaues i was inspired by some guides posted on cbs.nl. With this package i want to create some quality of life functions to use when making maps. For inspiration on what I made with this package see my other repository: https://github.com/reijmerniek/RVisuals or my shiny server: https://shinyreijmer.com
 
 Getting Started
 ---------------
@@ -90,6 +90,16 @@ full = TRUE
 )
 ```
 
+### cbs_mutate_statcode()
+
+Adjust statcode format of main CBS pchn6 table
+```R
+data <-PDOK::cbs_pchn6(jaar=2023)
+data$code_wijk <- sapply(data$code_wijk, function(x) cbs_mutate_statcode(x, "WK"))
+data <- left_join(data, wijk, by=c("code_wijk"="statcode"))
+```
+
+
 Examples
 --------
 
@@ -131,6 +141,17 @@ link_column = "query",
 full = TRUE
 )
 ```
+### cbs_mutate_statcode()
+
+```R
+data <-PDOK::cbs_pchn6(jaar=2023)
+data$code_wijk <- sapply(data$code_wijk, function(x) cbs_mutate_statcode(x, "WK"))
+data <- left_join(data, wijk, by=c("code_wijk"="statcode"))
+```
+
+
+
+
 
 Contributing
 ------------

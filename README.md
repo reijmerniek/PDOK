@@ -23,7 +23,8 @@ queries on WFS geodata. I build this package becaues i was inspired by
 some guides posted on cbs.nl. With this package i want to create some
 quality of life functions to use when making maps. For inspiration on
 what I made with this package see my other repository:
-<https://github.com/reijmerniek/RVisuals>.
+<https://github.com/reijmerniek/RVisuals> or my shiny server:
+<https://shinyreijmer.com>
 
 ## Getting Started
 
@@ -89,6 +90,16 @@ full = TRUE
 )
 ```
 
+### cbs_mutate_statcode()
+
+Adjust statcode format of main CBS pchn6 table
+
+``` r
+data <-PDOK::cbs_pchn6(jaar=2023)
+data$code_wijk <- sapply(data$code_wijk, function(x) cbs_mutate_statcode(x, "WK"))
+data <- left_join(data, wijk, by=c("code_wijk"="statcode"))
+```
+
 ## Examples
 
 The following examples demonstrate how to use some of the functions in
@@ -129,6 +140,14 @@ query_column = "query_nr",
 link_column = "query",
 full = TRUE
 )
+```
+
+### cbs_mutate_statcode()
+
+``` r
+data <-PDOK::cbs_pchn6(jaar=2023)
+data$code_wijk <- sapply(data$code_wijk, function(x) cbs_mutate_statcode(x, "WK"))
+data <- left_join(data, wijk, by=c("code_wijk"="statcode"))
 ```
 
 ## Contributing
