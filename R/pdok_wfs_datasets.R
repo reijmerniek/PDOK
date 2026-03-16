@@ -13,7 +13,6 @@
 #' @import xml2
 #' @import rvest
 #' @import purrr
-#' @import tidyverse
 #' @import stringr
 #' @import tidyr
 
@@ -29,10 +28,9 @@ pdok_wfs_datasets <- function(stored_df = TRUE){
   }
 
   if (stored_df==TRUE) {
-    data("pdok_datasets", package = "PDOK")
-    result <- pdok_datasets
-    rm(pdok_datasets, envir = .GlobalEnv)
-    return(result)
+    e <- new.env()
+    data("pdok_datasets", package = "PDOK", envir = e)
+    return(e$pdok_datasets)
 
   } else if(stored_df==FALSE) {
 

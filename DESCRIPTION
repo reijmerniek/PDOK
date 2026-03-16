@@ -13,12 +13,13 @@ BugReports: https://github.com/reijmerniek/PDOK/issues
 Depends: 
     R (>= 2.10)
 LazyData: true
-imports: 
-  tidyverse,
+Imports:
   rvest,
   xml2,
   stringr,
   purrr,
   dplyr,
   tidyr,
-  sf
+  sf,
+  jsonlite,
+  httr

@@ -10,8 +10,7 @@
 
 cbs_pchn6_geo <- function(){
 
-    data("pchn6_geo", package = "PDOK")
-    result <- pchn6_geo
-    rm(pchn6_geo, envir = .GlobalEnv)
-    return(result)
+    e <- new.env()
+    data("pchn6_geo", package = "PDOK", envir = e)
+    return(e$pchn6_geo)
   }

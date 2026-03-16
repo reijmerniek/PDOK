@@ -10,8 +10,8 @@
 #'
 #' coordinates <-pdok_find_coordinates(input ="Amsterdam", verbose_succes = TRUE)
 #'
-#' @import jsonlite
-#' @import httr
+#' @importFrom jsonlite fromJSON
+#' @importFrom httr GET status_code content
 #' @export
 #'
 
