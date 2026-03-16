@@ -1,30 +1,74 @@
-# Full function test — run this after installing from GitHub
-# devtools::install_github("reijmerniek/PDOK")
+# Full function test — run locally or via GitHub Actions
+# Local: source("tests/test_all_functions.R")
+# GitHub: installs package first, then runs this
 
 library(PDOK)
 
-cat("=== 1. cbs_pchn6 ===\n")
-df2025 <- cbs_pchn6(jaar = 2025, add_names = TRUE)
-df2023 <- cbs_pchn6(jaar = 2023, add_names = TRUE)
-cat("2025:", nrow(df2025), "rows,", ncol(df2025), "cols\n")
-cat("2023:", nrow(df2023), "rows,", ncol(df2023), "cols\n")
+failures <- character(0)
 
+check <- function(name, expr) {
+  tryCatch({
+    result <- expr
+    cat("  PASS:", name, "\n")
+    result
+  }, error = function(e) {
+    cat("  FAIL:", name, "—", conditionMessage(e), "\n")
+    failures <<- c(failures, name)
+    NULL
+  })
+}
+
+# ── 1. cbs_pchn6 ────────────────────────────────────────────────────────────
+cat("\n=== 1. cbs_pchn6 ===\n")
+df <- check("cbs_pchn6 jaar=2025", cbs_pchn6(jaar = 2025, add_names = TRUE))
+if (!is.null(df)) {
+  check("cbs_pchn6 has 8 cols",  { stopifnot(ncol(df) == 8); TRUE })
+  check("cbs_pchn6 has rows",    { stopifnot(nrow(df) > 7000000); TRUE })
+}
+
+# ── 2. cbs_pchn6_geo ─────────────────────────────────────────────────────────
 cat("\n=== 2. cbs_pchn6_geo ===\n")
-geo <- cbs_pchn6_geo()
-cat("Rows:", nrow(geo), "\n")
-print(head(geo))
+geo <- check("cbs_pchn6_geo loads", cbs_pchn6_geo())
+if (!is.null(geo)) {
+  check("cbs_pchn6_geo has rows",        { stopifnot(nrow(geo) > 7000000); TRUE })
+  check("cbs_pchn6_geo has coordinates", { stopifnot("coordinates" %in% names(geo)); TRUE })
+}
 
+# ── 3. pdok_find_coordinates ─────────────────────────────────────────────────
 cat("\n=== 3. pdok_find_coordinates ===\n")
-coords <- pdok_find_coordinates("Dam 1 Amsterdam", verbose_succes = TRUE)
-cat("Result:", coords, "\n")
+coords <- check("pdok_find_coordinates API call", pdok_find_coordinates("Dam 1 Amsterdam", verbose_succes = FALSE))
+if (!is.null(coords)) {
+  check("coords is character",    { stopifnot(is.character(coords)); TRUE })
+  check("coords has comma",       { stopifnot(grepl(",", coords)); TRUE })
+  check("coords lat in NL range", {
+    lat <- as.numeric(strsplit(coords, ", ")[[1]][1])
+    stopifnot(lat > 50.5 && lat < 53.7)
+    TRUE
+  })
+}
 
+# ── 4. pdok_wfs_datasets ─────────────────────────────────────────────────────
 cat("\n=== 4. pdok_wfs_datasets ===\n")
-wfs <- pdok_wfs_datasets(stored_df = TRUE)
-cat("Rows:", nrow(wfs), "\n")
-print(head(wfs[, c("Title", "Type", "ProviderName")]))
+wfs <- check("pdok_wfs_datasets stored", pdok_wfs_datasets(stored_df = TRUE))
+if (!is.null(wfs)) {
+  check("wfs has rows",        { stopifnot(nrow(wfs) > 100); TRUE })
+  check("wfs has query column",{ stopifnot("query" %in% names(wfs)); TRUE })
+}
 
-cat("\n=== 5. cbs_mutate_statcode ===\n")
-tests <- list(
+# ── 5. pdok_wfs_query ────────────────────────────────────────────────────────
+cat("\n=== 5. pdok_wfs_query ===\n")
+if (!is.null(wfs)) {
+  sf_result <- check("pdok_wfs_query query 1", pdok_wfs_query(query_number = 1, dataframe = wfs, full = FALSE))
+  if (!is.null(sf_result)) {
+    check("wfs_query returns sf",    { stopifnot(inherits(sf_result, "sf")); TRUE })
+    check("wfs_query has rows",      { stopifnot(nrow(sf_result) > 0); TRUE })
+    check("wfs_query has geometry",  { stopifnot("geometry" %in% names(sf_result)); TRUE })
+  }
+}
+
+# ── 6. cbs_mutate_statcode ───────────────────────────────────────────────────
+cat("\n=== 6. cbs_mutate_statcode ===\n")
+cases <- list(
   list(code="1234",     prefix="WK", expected="WK001234"),
   list(code="12345",    prefix="WK", expected="WK012345"),
   list(code="123456",   prefix="WK", expected="WK123456"),
@@ -35,11 +79,21 @@ tests <- list(
   list(code="123",      prefix="GM", expected="GM0123"),
   list(code="1234",     prefix="GM", expected="GM1234")
 )
-all_pass <- TRUE
-for (t in tests) {
-  result <- cbs_mutate_statcode(t$code, t$prefix)
-  pass <- result == t$expected
-  if (!pass) all_pass <- FALSE
-  cat(t$prefix, nchar(t$code), "chars:", if (pass) "OK" else paste("FAIL — got", result, "expected", t$expected), "\n")
+for (tc in cases) {
+  check(paste("statcode", tc$prefix, nchar(tc$code), "chars"), {
+    result <- cbs_mutate_statcode(tc$code, tc$prefix)
+    stopifnot(result == tc$expected)
+    TRUE
+  })
 }
-cat(if (all_pass) "\nAll cbs_mutate_statcode tests passed.\n" else "\nSome tests FAILED.\n")
+
+# ── Summary ──────────────────────────────────────────────────────────────────
+cat("\n============================================\n")
+if (length(failures) == 0) {
+  cat("All tests passed.\n")
+} else {
+  cat("FAILED tests:\n")
+  for (f in failures) cat(" -", f, "\n")
+  quit(status = 1)
+}
+cat("============================================\n")
